@@ -5,10 +5,15 @@ const router = new Router({
     prefix: '/v1/classic'
 })
 
-const { PositiveIntegerValidator } = require('../../validators/validator')
+const { Flow } = require('../../models/flow')
 
 router.get('/latest', new Auth().m, async (ctx, next) => {
-    ctx.body = ctx.auth.uid
+    const flow = await Flow.findOne({
+        order: [
+            ['index', 'DESC']
+        ]
+    })
+    ctx.body = flow 
 })
 
 module.exports = router

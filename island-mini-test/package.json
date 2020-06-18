@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "js-base64": "^2.5.1",
     "lin-ui": "^0.8.3"
   }
 }
