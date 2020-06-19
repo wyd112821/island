@@ -4,7 +4,7 @@ const { LoginType } = require('../lib/enum')
 
 class PositiveIntegerValidator extends LinValidator {
     constructor() {
-        //super()
+        super()
         this.id = [
             new Rule('isInt', '需要的是正整数', {min: 1})
         ]
@@ -76,7 +76,7 @@ class TokenValidator extends LinValidator{
         if(!vals.body.type) {
             throw new Error('type是必填参数')
         }
-        if(!LoginType.isLoginType(vals.body.type)) {
+        if(!LoginType.isThisType(vals.body.type)) {
             throw new Error('type参数不合法')
         }
     }
@@ -91,9 +91,30 @@ class NotEmptyValidator extends LinValidator{
     }
 }
 
+class LikeValidator extends PositiveIntegerValidator{
+    constructor() {
+        super()
+        this.validateType = checkType
+    }
+}
+
+function checkType(vals) {
+    let type = vals.body.type || vals.path.type
+    if(!type) {
+        throw new Error('type是必须参数')
+    }
+    type = parseInt(type)
+
+    if(!LoginType.isThisType(type)) {
+        throw new Error('type参数不合法')
+    }
+
+}
+
 module.exports = {
     PositiveIntegerValidator,
     RegisterValidator,
     TokenValidator,
-    NotEmptyValidator
+    NotEmptyValidator,
+    LikeValidator
 }

@@ -1,5 +1,3 @@
-const { extend } = require("lodash")
-
 class HttpException extends Error{
     constructor(msg = '服务器异常', errorCode = 10000, code = 400) {
         super()
@@ -54,11 +52,31 @@ class Forbbiden extends HttpException {
     }
 }
 
+class LikeError extends HttpException {
+    constructor(msg, errorCode) {
+        super()
+        this.msg = msg || '你已经点赞过'
+        this.errorCode = errorCode || 60001
+        this.code = 400
+    }
+}
+
+class DislikeError extends HttpException {
+    constructor(msg, errorCode) {
+        super()
+        this.msg = msg || '你已取消点赞'
+        this.errorCode = errorCode || 60002
+        this.code = 400
+    }
+}
+
 module.exports = {
     HttpException,
     ParameterException,
     Success,
     NotFound,
     AuthFailed,
-    Forbbiden
+    Forbbiden,
+    LikeError,
+    DislikeError
 }
